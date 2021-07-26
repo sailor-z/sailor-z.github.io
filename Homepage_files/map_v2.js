@@ -1,6 +1,6 @@
 /* jshint browser: true */
 (function(window, document) {/* Wrap code in an IIFE */
-/* date last modified: 2020-08-07 11:06:51 */
+/* date last modified: 2020-08-07 11:07:24 */
 var jQuery, $; // Localize jQuery variables
 var waitForFinalEvent = (function() {
     var timers = {};
