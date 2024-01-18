@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LocPoseNet: Robust Location Prior for Unseen Object Pose Estimation</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./3DV2024_LocPoseNet/static/css/bulma.min.css">
+  <link rel="stylesheet" href="./3DV2024_LocPoseNet/static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./3DV2024_LocPoseNet/static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./3DV2024_LocPoseNet/static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./3DV2024_LocPoseNet/static/css/index.css">
+  <link rel="icon" href="./3DV2024_LocPoseNet/static/images/favicon.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./3DV2024_LocPoseNet/static/js/fontawesome.all.min.js"></script>
+  <script src="./3DV2024_LocPoseNet/static/js/bulma-carousel.min.js"></script>
+  <script src="./3DV2024_LocPoseNet/static/js/bulma-slider.min.js"></script>
+  <script src="./3DV2024_LocPoseNet/static/js/index.js"></script>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">LocPoseNet: Robust Location Prior for Unseen Object Pose Estimation</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://sailor-z.github.io/">Chen Zhao</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://yinlinhu.github.io/">Yinlin Hu</a><sup>3</sup>,</span>
+            <span class="author-block">
+              <a href="https://people.epfl.ch/mathieu.salzmann?lang=en">Mathieu Salzmann</a><sup>12</sup>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>EPFL-CVLab,</span>
+            <span class="author-block"><sup>2</sup>ClearSpace SA,</span>
+            <span class="author-block"><sup>3</sup>Magic Leap</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2211.16290"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <!-- <span class="link-block">
+                <a href="https://arxiv.org/abs/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span> -->
+              <!-- Video Link. -->
+              <!-- <span class="link-block">
+                <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span> -->
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/sailor-z/LocPoseNet"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <!-- <span class="link-block">
+                <a href="https://github.com/google/nerfies/releases/tag/0.1"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a> -->
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+          Object location prior has been shown to be critical for the standard 6D object pose estimation setting. The prior can be used to initialize the 3D object translation and facilitate 3D object rotation estimation. Unfortunately, the object detectors that are used for this purpose do not generalize to unseen objects, i.e., objects from new categories at test time. Therefore, existing 6D pose estimation methods for unseen objects either assume the ground-truth object location to be known or yield inaccurate results when it is unavailable. In this paper, we address this problem by developing a method, LocPoseNet, able to robustly learn location prior for unseen objects. Our method builds upon a template matching strategy, where we propose to distribute the reference kernels and convolve them with a query to efficiently compute multi-scale correlations. We then introduce a novel translation estimator, which decouples scale-aware and scale-robust features to predict different object location parameters. Our method outperforms existing works by a large margin on LINEMOD and GenMOP. We further construct a challenging synthetic dataset, which allows us to highlight the better robustness of our method to various noise sources.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <div class = "has-text-centered">
+          <h2 class="title is-3">Method Overview</h2>
+        </div>
+        <br>
+          <img src="./3DV2024_LocPoseNet/static/images/network.png"
+          class=""
+          alt=""/>
+          We explicitly separate the scale-related features, such as the multi-scale correlations, into scale-robust and scale-aware components. We predict the object center and the size from the scale-robust features and scale-aware ones, respectively, leveraging the consistencies across neighboring references. We introduce a computationally-friendly approach to extract the scale-related features, which bypasses the need for multiple forward passes through the backbone. This is achieved by leveraging the fact that the receptive field of the reference-query convolution is related to the size of a reference kernel. Thus, we estimate multi-scale correlations by distributing the reference kernels in different manners in the convolution process.
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <div class = "has-text-centered">
+          <h2 class="title is-3">Results on LINEMOD</h2>
+        </div>
+        <br>
+          <img src="./3DV2024_LocPoseNet/static/images/linemod.png"
+          class=""
+          alt=""/>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <div class = "has-text-centered">
+          <h2 class="title is-3">Results on Synthetic LINEMOD</h2>
+        </div>
+        <br>
+          <img src="./3DV2024_LocPoseNet/static/images/linemod-syn.png"
+          class=""
+          alt=""/>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <div class = "has-text-centered">
+          <h2 class="title is-3">Demo</h2>
+        </div>
+        <br>
+        <div class="column content">
+          <video id="matting-video" autoplay controls muted loop playsinline height="100%">
+            <source src="./3DV2024_LocPoseNet/static/videos/Doraemon.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- <section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{park2021nerfies,
+  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
+  title     = {Nerfies: Deformable Neural Radiance Fields},
+  journal   = {ICCV},
+  year      = {2021},
+}</code></pre>
+  </div>
+</section> -->
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="https://arxiv.org/pdf/2311.07885.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="" class="external-link" disabled>
+        <i class="fab fa-github">https://github.com/SUDO-AI-3D/One2345plus</i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is borrowed from <a
+              href="https://github.com/nerfies/nerfies.github.io">nerfies</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,121 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Progressive Correspondence Pruning by Consensus Learning</title>
+
+<!-- Meta tags for search engines to crawl -->
+<meta name="robots" content="index,follow">
+<meta name="description" content="The recent studies of knowledge distillation have discovered that ensembling the 'dark knowledge' from multiple teachers or students contributes to creating better soft targets for training, but at the cost of significantly more computations and/or parameters. In this work, we present BAtch Knowledge Ensembling (BAKE) to produce refined soft targets for anchor images by propagating and ensembling the knowledge of the other samples in the same mini-batch. Specifically, for each sample of interest, the propagation of knowledge is weighted in accordance with the inter-sample affinities, which are estimated on-the-fly with the current network. The propagated knowledge can then be ensembled to form a better soft target for distillation. In this way, our BAKE framework achieves online knowledge ensembling across multiple samples with only a single network. It requires minimal computational and memory overhead compared to existing knowledge ensembling methods. Extensive experiments demonstrate that the lightweight yet effective BAKE consistently boosts the classification performance of various architectures on multiple datasets, e.g., a significant +1.2% gain of ResNet-50 on ImageNet with only +3.7% computational overhead and zero additional parameters. BAKE does not only improve the vanilla baselines, but also surpasses the single-network state-of-the-arts on all the benchmarks.">
+<meta name="keywords" content="Representation Learning; Image Classification; Computer Vision; Deep Learning">
+<link rel="author" href="https://sailor-z.github.io/">
+
+<!-- Fonts and stuff -->
+<link href="./ICLR2024_3DAHV/static/css/css.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="./ICLR2024_3DAHV/static/css/project.css" media="screen">
+<link rel="stylesheet" type="text/css" media="screen" href="./ICLR2024_3DAHV/static/css/iconize.css">
+<script src="./ICLR2024_3DAHV/static/css/effect.js "></script>
+<script async="" src="./ICLR2024_3DAHV/static/css/prettify.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</style></head>
+
+<body><div style="visibility: hidden; overflow: hidden; position: absolute; top: 0px; height: 1px; width: auto; padding: 0px; border: 0px; margin: 0px; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal;"><div id="MathJax_Hidden"></div></div><div id="MathJax_Message" style="display: none;"></div>
+  <div id="content">
+    <div id="content-inner">
+
+      <div class="section head">
+        <h1>3D-Aware Hypothesis & Verification for Generalizable Relative Object Pose Estimation</h1>
+
+	<div class="authors">
+    <a href="https://sailor-z.github.io/">Chen Zhao</a><sup>1</sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="https://sites.google.com/view/tong-zhang">Tong Zhang</a><sup>2</sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="https://people.epfl.ch/mathieu.salzmann">Mathieu Salzmann</a><sup>1,3</sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+	</div>
+
+	<div class="affiliations">
+	  1. <a href="https://www.epfl.ch/labs/cvlab/">EPFL-CVLab, École polytechnique fédérale de Lausanne (EPFL)</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	  <br>
+    2. <a href="https://www.epfl.ch/labs/ivrl/">EPFL-IVRL</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	  <br>
+    3. <a href="https://clearspace.today/">ClearSpace SA</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	  <br>
+
+	</div>
+
+  <!-- <div class="venue">Conference on Neural Information Processing Systems (<a href="https://nips.cc/" target="_blank">NeurIPS</a>) 2020 </div> -->
+  	<ul id="tabs">
+  		<li>
+  			<a href="https://arxiv.org/pdf/2310.03534.pdf" name="#tab1">Paper</a>
+  		</li>
+  		<li>
+  			<a href="https://github.com/sailor-z/3DAHV" name="#tab2">Code</a>
+  		</li>
+  	</ul>
+    </div>
+
+    <!-- <br> -->
+
+<div class="section abstract">
+  	<h2>Abstract <a href="https://arxiv.org/pdf/2310.03534.pdf" target="search_iframe">[Full Paper]</a></h2>
+    <hr/>
+    <br>
+    <center><img src="./ICLR2024_3DAHV/static/images/intro.png" alt="Trulli" style="width:80%"></center><br>
+  <div>
+    Prior methods that tackle the problem of generalizable object pose estimation highly rely on having dense views of the unseen object. By contrast, we address the scenario where only a single reference view of the object is available. Our goal then is to estimate the relative object pose between this reference view and a query image that depicts the object in a different pose. In this scenario, robust generalization is imperative due to the presence of unseen objects during testing and the large-scale object pose variation between the reference and the query. To this end, we present a new hypothesis-and-verification framework, in which we generate and evaluate multiple pose hypotheses, ultimately selecting the most reliable one as the relative object pose. To measure reliability, we introduce a 3D-aware verification that explicitly applies 3D transformations to the 3D object representations learned from the two input images. Our comprehensive experiments on the Objaverse, LINEMOD, and CO3D datasets evidence the superior accuracy of our approach in relative pose estimation and its robustness in large-scale pose variations, when dealing with unseen objects.
+  </div>
+</div>
+
+<div class="section method">
+	<h2>Method Overview</h2>
+  <hr/>
+  <br>
+  <center><img src="./ICLR2024_3DAHV/static/images/network.png" alt="Trulli" style="width:80%"></center><br>
+  <div>
+    A hypothesis $\Delta{\mathbf{P}}$ is randomly sampled and its accuracy is measured as a score $s$. To explicitly integrate 3D information, we perform the verification over a 3D object representation indicated as a learnable 3D volume. The sampled hypothesis is coupled with the learned representation via a 3D transformation over the reference 3D volume. We learn the 3D volumes from the 2D feature maps extracted from the RGB images by introducing a 3D reasoning module. To improve robustness, we randomly mask out some blocks colored in white during training.
+  </div>
+</div>
+
+ <div class="section results">
+  	<h2>Results on Objaverse and LINEMOD</h2>
+    <hr/>
+    <br>
+  <figure>
+    <center><img src="./ICLR2024_3DAHV/static/images/results_3d.png" alt="Trulli" style="width:90%"></center><br>
+    <center><figcaption>3D object rotation estimation for novel objects on Objaverse and LINEMOD</figcaption></center>
+  </figure>
+
+  <figure>
+    <center><img src="./ICLR2024_3DAHV/static/images/results_6d.png" alt="Trulli" style="width:90%"></center><br>
+    <center><figcaption>6D object pose estimation for novel objects on LINEMOD</figcaption></center>
+  </figure>
+</div>
+
+<br>
+
+<div class="section citation" ,="" id="bibtex">
+	<h2>Citation</h2>
+  <hr/>
+	<div class="section bibtex">
+	  <pre>@article{zhao20233d,
+    title={3D-Aware Hypothesis \& Verification for Generalizable Relative Object Pose Estimation},
+    author={Zhao, Chen and Zhang, Tong and Salzmann, Mathieu},
+    journal={Proceedings of the International Conference on Learning Representations},
+    year={2024}
+  }
+}</pre>
+	  </div>
+      </div>
+
+<div class="section contact">
+  <h2 id="contact">Contact</h2>
+  <hr/>
+  <p>If you have any question, please contact Chen ZHAO at <strong>chen.zhao@epfl.ch</strong>.</p>
+</div>
+
+
+</div></div><div style="position: absolute; width: 0px; height: 0px; overflow: hidden; padding: 0px; border: 0px; margin: 0px;"><div id="MathJax_Font_Test" style="position: absolute; visibility: hidden; top: 0px; left: 0px; width: auto; padding: 0px; border: 0px; margin: 0px; white-space: nowrap; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; font-size: 40px; font-weight: normal; font-style: normal; font-family: STIXSizeOneSym, sans-serif;"></div></div></body></html>
