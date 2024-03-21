@@ -1,0 +1,117 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<!-- Fonts and stuff -->
+<link href="./ICLR2024_3DAHV/static/css/css.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="./CVPR2024_DVMNet/static/css/project.css" media="screen">
+<link rel="stylesheet" type="text/css" media="screen" href="./CVPR2024_DVMNet/static/css/iconize.css">
+<script src="./CVPR2024_DVMNet/static/css/effect.js "></script>
+<script async="" src="./CVPR2024_DVMNet/static/css/prettify.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</style></head>
+
+<body><div style="visibility: hidden; overflow: hidden; position: absolute; top: 0px; height: 1px; width: auto; padding: 0px; border: 0px; margin: 0px; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal;"><div id="MathJax_Hidden"></div></div><div id="MathJax_Message" style="display: none;"></div>
+  <div id="content">
+    <div id="content-inner">
+
+      <div class="section head">
+        <h1>DVMNet: Computing Relative Pose for Unseen Objects Beyond Hypotheses</h1>
+        <h2>CVPR 2024</h2>
+      <br>
+	<div class="authors">
+    <a href="https://sailor-z.github.io/">Chen Zhao</a><sup>1</sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="https://sites.google.com/view/tong-zhang">Tong Zhang</a><sup>1</sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="https://people.epfl.ch/zheng.dang?lang=en">Tong Zhang</a><sup>1</sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="https://people.epfl.ch/mathieu.salzmann">Mathieu Salzmann</a><sup>1,2</sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+	</div>
+
+	<div class="affiliations">
+	  1. <a href="https://www.epfl.ch/labs/cvlab/">EPFL</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    2. <a href="https://clearspace.today/">ClearSpace SA</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	  <br>
+
+	</div>
+
+  <!-- <div class="venue">Conference on Neural Information Processing Systems (<a href="https://nips.cc/" target="_blank">NeurIPS</a>) 2020 </div> -->
+  	<ul id="tabs">
+  		<li>
+  			<a href="https://arxiv.org/pdf/2403.13683.pdf" name="#tab1">Paper</a>
+  		</li>
+  		<li>
+  			<a href="https://github.com/sailor-z/DVMNet" name="#tab2">Code</a>
+  		</li>
+  	</ul>
+    </div>
+
+    <!-- <br> -->
+
+<div class="section abstract">
+  	<h2>Abstract <a href="https://arxiv.org/pdf/2403.13683.pdf" target="search_iframe">[Full Paper]</a></h2>
+    <hr/>
+    <br>
+    <center><img src="./CVPR2024_DVMNet/static/images/intro.png" alt="Trulli" style="width:80%"></center><br>
+  <div>
+    Determining the relative pose of an object between two images is pivotal to the success of generalizable object pose estimation. Existing approaches typically approximate the continuous pose representation with a large number of discrete pose hypotheses, which incurs a computationally expensive process of scoring each hypothesis at test time. By contrast, we present a Deep Voxel Matching Network (DVMNet) that eliminates the need for pose hypotheses and computes the relative object pose in a single pass. To this end, we map the two input RGB images, reference and query, to their respective voxelized 3D representations. We then pass the resulting voxels through a pose estimation module, where the voxels are aligned and the pose is computed in an end-to-end fashion by solving a least-squares problem. To enhance robustness, we introduce a weighted closest voxel algorithm capable of mitigating the impact of noisy voxels.
+  </div>
+</div>
+
+<div class="section method">
+	<h2>Method Overview</h2>
+  <hr/>
+  <br>
+  <center><img src="./CVPR2024_DVMNet/static/images/network.png" alt="Trulli" style="width:80%"></center><br>
+  <div>
+  The encoder takes two RGB images, query and reference, as input and lifts their 2D feature embeddings to 3D voxels by leveraging cross-view 3D information. The decoder then reconstructs the masked object images from the voxels, allowing the voxels to encode the object patterns.
+  </div>
+  <center><img src="./CVPR2024_DVMNet/static/images/matching.png" alt="Trulli" style="width:80%"></center><br>
+  <div>
+  The feature similarities of $\mathbf{V}_q$ and $\mathbf{V}_r$ are computed, which results in a score matrix $\mathbf{S}$. A soft assignment is performed based on $\mathbf{S}$ over the query object mask $\hat{\mathbf{M}}_q$, the 3D objectness map $\mathbf{O}_q$, and the 3D coordinates $\mathbf{X}_q$. The aligned query and reference voxels are then fed into a Weighted Closest Voxel (WCV) algorithm that estimates the relative object pose in a robust and end-to-end manner.
+  </div>
+</div>
+
+ <div class="section results">
+  	<h2>Results on Objaverse and LINEMOD</h2>
+    <hr/>
+    <br>
+  <figure>
+    <center><img src="./CVPR2024_DVMNet/static/images/results_3d.png" alt="Trulli" style="width:90%"></center><br>
+    <center><figcaption>3D object rotation estimation for novel objects on Objaverse and LINEMOD</figcaption></center>
+  </figure>
+
+  <figure>
+    <center><img src="./CVPR2024_DVMNet/static/images/results_6d.png" alt="Trulli" style="width:90%"></center><br>
+    <center><figcaption>6D object pose estimation for novel objects on LINEMOD</figcaption></center>
+  </figure>
+</div>
+
+<br>
+
+<div class="section citation" ,="" id="bibtex">
+	<h2>Citation</h2>
+  <hr/>
+	<div class="section bibtex">
+	  <pre>@article{zhao2024dvmnet,
+    title={DVMNet: Computing Relative Pose for Unseen Objects Beyond Hypotheses},
+    author={Zhao, Chen and Zhang, Tong and Dang, Zheng and Salzmann, Mathieu},
+    journal={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+    year={2024}
+  }
+</pre>
+	  </div>
+      </div>
+
+<div class="section contact">
+  <h2 id="contact">Contact</h2>
+  <hr/>
+  <p>If you have any question, please contact Chen ZHAO at <strong>chen.zhao@epfl.ch</strong>.</p>
+</div>
+
+
+</div></div><div style="position: absolute; width: 0px; height: 0px; overflow: hidden; padding: 0px; border: 0px; margin: 0px;"><div id="MathJax_Font_Test" style="position: absolute; visibility: hidden; top: 0px; left: 0px; width: auto; padding: 0px; border: 0px; margin: 0px; white-space: nowrap; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; font-size: 40px; font-weight: normal; font-style: normal; font-family: STIXSizeOneSym, sans-serif;"></div></div></body></html>
