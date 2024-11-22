@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Self-Ensembling Gaussian Splatting for Few-shot Novel View Synthesis</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./SEGS/static/css/bulma.min.css">
+  <link rel="stylesheet" href="./SEGS/static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./SEGS/static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./SEGS/static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./SEGS/static/css/index.css">
+  <link rel="icon" href="./SEGS/static/images/favicon.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./SEGS/static/js/fontawesome.all.min.js"></script>
+  <script src="./SEGS/static/js/bulma-carousel.min.js"></script>
+  <script src="./SEGS/static/js/bulma-slider.min.js"></script>
+  <script src="./SEGS/static/js/index.js"></script>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Self-Ensembling Gaussian Splatting for Few-Shot Novel View Synthesis</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://sailor-z.github.io/">Chen Zhao</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://xuanwangvc.github.io/">Xuan Wang</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="https://sites.google.com/view/tong-zhang">Tong Zhang</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://saqibjaved1.github.io/">Saqib Javed</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://people.epfl.ch/mathieu.salzmann?lang=en">Mathieu Salzmann</a><sup>13</sup>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>EPFL-CVLab,</span>
+            <span class="author-block"><sup>2</sup>Ant Group,</span>
+            <span class="author-block"><sup>3</sup>Swiss Data Science Center</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2411.00144"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <!-- <span class="link-block">
+                <a href="https://arxiv.org/abs/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span> -->
+              <!-- Video Link. -->
+              <!-- <span class="link-block">
+                <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span> -->
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/sailor-z/SE-GS"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <!-- <span class="link-block">
+                <a href="https://github.com/google/nerfies/releases/tag/0.1"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a> -->
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+          <img src="./SEGS/static/images/viz.png"
+          class=""
+          alt=""/>
+          3D Gaussian Splatting (3DGS) has demonstrated remarkable effectiveness for novel view synthesis (NVS). However, the 3DGS model tends to overfit when trained with sparse posed views, limiting its generalization ability to novel views. In this paper, we alleviate the overfitting problem, presenting a Self-Ensembling Gaussian Splatting (SE-GS) approach. Our method encompasses a &Sigma;-model and a &Delta;-model. The &Sigma;-model serves as an ensemble of 3DGS models that generates novel-view images during inference. We achieve the self-ensembling by introducing an uncertainty-aware perturbation strategy at the training state. We complement the &Sigma;-model with the &Delta;-model, which is dynamically perturbed based on the uncertainties of novel-view renderings across different training steps. The perturbation yields diverse temporal samples in the Gaussian parameter space without additional training costs.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <div class = "has-text-centered">
+          <h2 class="title is-3">Method Overview</h2>
+        </div>
+        <br>
+          <img src="./SEGS/static/images/pipeline.png"
+          class=""
+          alt=""/>
+          Our self-ensembling builds upon diverse samples in the Gaussian parameter space. These samples are derived from the &Delta;-model via an uncertainty-aware perturbation strategy. Specifically, we store images rendered from pseudo views at different training steps in buffers, from which we compute pixel-level uncertainties. We then perturb the Gaussians overlapping the pixels with high uncertainties, as highlighted as red ellipses. Self-ensembling over the resulting samples is achieved by training a &Sigma;-model with a regularization that penalizes the discrepancies of the &Sigma;-model and the perturbed &Delta;-model. During inference, novel view synthesis is performed using the &Sigma;-model.
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <div class = "has-text-centered">
+          <h2 class="title is-3">Uncertainty Maps</h2>
+        </div>
+        <br>
+        <video id="matting-video" autoplay controls muted loop playsinline height="100%">
+          <source src="./SEGS/static/videos/uncerntainty.mp4"
+                  type="video/mp4">
+        </video>
+      </div>
+  </div>
+</section>
+
+<!-- <section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <div class = "has-text-centered">
+          <h2 class="title is-3">Pseudo-View Renderings</h2>
+        </div>
+        <br>
+          <video id="matting-video" autoplay controls muted loop playsinline height="100%">
+            <source src="./SEGS/static/videos/fern.mp4"
+                    type="video/mp4">
+          </video>
+    </div>
+  </div>
+</section> -->
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <div class = "has-text-centered">
+          <h2 class="title is-3">Pseudo-View Renderings During Training</h2>
+        </div>
+        </div>
+  </div>
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <!-- First Video -->
+      <div class="column is-one-third">
+        <div class="has-text-centered">
+          <video id="video1" autoplay controls muted loop playsinline width="100%">
+            <source src="./SEGS/static/videos/fern.mp4" type="video/mp4">
+          </video>
+          <h2 class="title is-5">Fern</h2>
+        </div>
+      </div>
+
+      <!-- Second Video -->
+      <div class="column is-one-third">
+        <div class="has-text-centered">
+          <video id="video2" autoplay controls muted loop playsinline width="100%">
+            <source src="./SEGS/static/videos/horns.mp4" type="video/mp4">
+          </video>
+          <h2 class="title is-5">Horns</h2>
+        </div>
+      </div>
+
+      <!-- Third Video -->
+      <div class="column is-one-third">
+        <div class="has-text-centered">
+          <video id="video3" autoplay controls muted loop playsinline width="100%">
+            <source src="./SEGS/static/videos/trex.mp4" type="video/mp4">
+          </video>
+          <h2 class="title is-5">Trex</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <div class = "has-text-centered">
+          <h2 class="title is-3">Novel View Synthesis</h2>
+        </div>
+        <br>
+        <div class="column content">
+          <video id="matting-video" autoplay controls muted loop playsinline height="100%">
+            <source src="./SEGS/static/videos/nvs_res.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- <section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{park2021nerfies,
+  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
+  title     = {Nerfies: Deformable Neural Radiance Fields},
+  journal   = {ICCV},
+  year      = {2021},
+}</code></pre>
+  </div>
+</section> -->
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="https://arxiv.org/pdf/2311.07885.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="" class="external-link" disabled>
+        <i class="fab fa-github">https://github.com/SUDO-AI-3D/One2345plus</i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is borrowed from <a
+              href="https://github.com/nerfies/nerfies.github.io">nerfies</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
