@@ -125,6 +125,27 @@
 
 <section class="section">
   <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <div class = "has-text-centered">
+          <h2 class="title is-3">Novel View Synthesis</h2>
+        </div>
+        <br>
+        <div class="column content">
+          <video id="matting-video" autoplay controls muted loop playsinline height="100%">
+            <source src="./SEGS/static/videos/nvs_results.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
     <!-- Abstract. -->
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
@@ -134,7 +155,7 @@
           <img src="./SEGS/static/images/viz.png"
           class=""
           alt=""/>
-          3D Gaussian Splatting (3DGS) has demonstrated remarkable effectiveness for novel view synthesis (NVS). However, the 3DGS model tends to overfit when trained with sparse posed views, limiting its generalization ability to novel views. In this paper, we alleviate the overfitting problem, presenting a Self-Ensembling Gaussian Splatting (SE-GS) approach. Our method encompasses a &Sigma;-model and a &Delta;-model. The &Sigma;-model serves as an ensemble of 3DGS models that generates novel-view images during inference. We achieve the self-ensembling by introducing an uncertainty-aware perturbation strategy at the training state. We complement the &Sigma;-model with the &Delta;-model, which is dynamically perturbed based on the uncertainties of novel-view renderings across different training steps. The perturbation yields diverse temporal samples in the Gaussian parameter space without additional training costs.
+          3D Gaussian Splatting (3DGS) has demonstrated remarkable effectiveness for novel view synthesis (NVS). However, the 3DGS model tends to overfit when trained with sparse posed views, limiting its generalization ability to novel views. We alleviate the overfitting problem, presenting a Self-Ensembling Gaussian Splatting (SE-GS) approach. Our method encompasses a &Sigma;-model and a &Delta;-model. The &Sigma;-model serves as an ensemble of 3DGS models that generates novel-view images during inference. We achieve the self-ensembling by introducing an uncertainty-aware perturbation strategy at the training state. We complement the &Sigma;-model with the &Delta;-model, which is dynamically perturbed based on the uncertainties of novel-view renderings across different training steps. The perturbation yields diverse 3DGS models without additional training costs.
           </p>
         </div>
       </div>
@@ -154,7 +175,7 @@
           <img src="./SEGS/static/images/pipeline.png"
           class=""
           alt=""/>
-          Our self-ensembling builds upon diverse samples in the Gaussian parameter space. These samples are derived from the &Delta;-model via an uncertainty-aware perturbation strategy. Specifically, we store images rendered from pseudo views at different training steps in buffers, from which we compute pixel-level uncertainties. We then perturb the Gaussians overlapping the pixels with high uncertainties, as highlighted as red ellipses. Self-ensembling over the resulting samples is achieved by training a &Sigma;-model with a regularization that penalizes the discrepancies of the &Sigma;-model and the perturbed &Delta;-model. During inference, novel view synthesis is performed using the &Sigma;-model.
+          The perturbed models are derived from the &Delta;-model via an uncertainty-aware perturbation strategy. We store images rendered from pseudo views at different training steps in buffers, from which we compute pixel-level uncertainties. We then perturb the Gaussians overlapping the pixels with high uncertainties, as highlighted as red ellipses. Self-ensembling over the perturbed models is achieved by training a &Sigma;-model with a regularization that penalizes the discrepancies of the &Sigma;-model and the perturbed &Delta;-model. During inference, novel view synthesis is performed using the &Sigma;-model.
     </div>
   </div>
 </section>
@@ -162,16 +183,11 @@
 <section class="section">
   <div class="container is-max-desktop">
     <div class="columns is-centered">
-      <div class="column is-full-width">
-        <div class = "has-text-centered">
-          <h2 class="title is-3">Uncertainty Maps</h2>
-        </div>
         <br>
-        <video id="matting-video" autoplay controls muted loop playsinline height="100%">
+        <video id="matting-video" autoplay controls muted loop playsinline style="width: 70%; height: auto;">
           <source src="./SEGS/static/videos/uncerntainty.mp4"
                   type="video/mp4">
         </video>
-      </div>
   </div>
 </section>
 
@@ -194,66 +210,11 @@
 <section class="section">
   <div class="container is-max-desktop">
     <div class="columns is-centered">
-      <div class="column is-full-width">
-        <div class = "has-text-centered">
-          <h2 class="title is-3">Pseudo-View Renderings During Training</h2>
-        </div>
-        </div>
-  </div>
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <!-- First Video -->
-      <div class="column is-one-third">
-        <div class="has-text-centered">
-          <video id="video1" autoplay controls muted loop playsinline width="100%">
-            <source src="./SEGS/static/videos/fern.mp4" type="video/mp4">
-          </video>
-          <h2 class="title is-5">Fern</h2>
-        </div>
-      </div>
-
-      <!-- Second Video -->
-      <div class="column is-one-third">
-        <div class="has-text-centered">
-          <video id="video2" autoplay controls muted loop playsinline width="100%">
-            <source src="./SEGS/static/videos/horns.mp4" type="video/mp4">
-          </video>
-          <h2 class="title is-5">Horns</h2>
-        </div>
-      </div>
-
-      <!-- Third Video -->
-      <div class="column is-one-third">
-        <div class="has-text-centered">
-          <video id="video3" autoplay controls muted loop playsinline width="100%">
-            <source src="./SEGS/static/videos/trex.mp4" type="video/mp4">
-          </video>
-          <h2 class="title is-5">Trex</h2>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <div class = "has-text-centered">
-          <h2 class="title is-3">Novel View Synthesis</h2>
-        </div>
         <br>
-        <div class="column content">
-          <video id="matting-video" autoplay controls muted loop playsinline height="100%">
-            <source src="./SEGS/static/videos/nvs_res.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-
-      </div>
-    </div>
-
+        <video id="matting-video" autoplay controls muted loop playsinline style="width: 70%; height: auto;">
+          <source src="./SEGS/static/videos/sigma_model_vs_perturbed_model.mp4"
+                  type="video/mp4">
+        </video>
   </div>
 </section>
 
