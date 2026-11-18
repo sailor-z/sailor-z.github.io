@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VGGM-Nexus</title>
+<meta name="description" content="VGGM-Nexus is a unified visual geometry-grounded model. With point-to-patch querying, one model gives 3D and 4D reconstruction, from sparse points to dense pointmaps.">
+<meta property="og:title" content="VGGM-Nexus">
+<meta property="og:description" content="Unified Visual Geometry-Grounded Model.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sailor-z.github.io/vggm-nexus/">
+<meta property="og:image" content="https://sailor-z.github.io/vggm-nexus/static/images/teaser.webp">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="static/images/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="static/css/style.css">
+<script type="importmap">
+{ "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }
+</script>
+<script defer src="static/js/main.js"></script>
+<script defer src="static/js/method.js"></script>
+<script type="module" src="static/js/viewer.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="top">
+  <div class="nav-inner">
+    <a class="wordmark" href="#top">VGGM-Nexus<span class="dot">.</span></a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#viewer">4D viewer</a>
+      <a href="#viewer3d">3D viewer</a>
+      <a href="#method">Method</a>
+    </nav>
+    <!-- TODO: set the paper URL and remove data-soon. -->
+    <a class="nav-paper" href="#" data-soon>Paper <span aria-hidden="true">↗</span></a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============================== Hero ============================== -->
+<section class="hero">
+  <h1 class="title">
+    <span class="title-name">VGGM-Nexus</span>
+    <span class="title-sub">Unified Visual Geometry-Grounded Model</span>
+  </h1>
+  <p class="tagline">Any pixel. Any time. <span>One model.</span></p>
+
+  <p class="authors">
+    <a href="https://sailor-z.github.io/">Chen Zhao</a>,
+    <a href="https://edgarsucar.github.io/">Edgar Sucar</a>,
+    <a href="https://scholar.google.com/citations?user=31eXgMYAAAAJ&amp;hl=en">Zihang Lai</a>,
+    <a href="https://eldar.insafutdinov.com/">Eldar Insafutdinov</a>,
+    <a href="https://nirvanalan.github.io/">Yushi Lan</a>,
+    <a href="https://www.robots.ox.ac.uk/~vedaldi/">Andrea Vedaldi</a>
+  </p>
+  <p class="affiliations">Visual Geometry Group, University of Oxford</p>
+
+  <!-- TODO: set the hrefs and remove data-soon when each link is live. -->
+  <div class="buttons">
+    <a class="btn" href="#" data-soon>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 3v5h5M10 13h6M10 17h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      Paper</a>
+    <a class="btn" href="#" data-soon>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 12 5l7 14M8 13h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      arXiv</a>
+    <a class="btn" href="#" data-soon>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 8-4 4 4 4M15 8l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Code</a>
+  </div>
+</section>
+
+<!-- ============================== Overview video ============================== -->
+<!-- The three-minute PR video in place of paper Figure 1. static/videos/overview.mp4 is a web encode of
+     pr_video/VGGM-Nexus_PR_video.mp4 and the poster is its frame at 57.5 s (the four outputs of Figure 1); see README, "Overview video".
+     Figure 1 itself (static/images/teaser.webp) is still the social preview image above. -->
+<figure class="figure teaser wide">
+  <video class="teaser-video" controls playsinline preload="metadata" width="1920" height="1080"
+         poster="static/images/overview_poster.webp"
+         aria-label="Overview video of VGGM-Nexus, three minutes, no sound, all text on screen. It covers the motivation against full-frame and point-to-point models, the query (u, v, s, t) and its 15 by 15 patch, the SDP head with target attention and source fusion, the efficiency comparison, and comparisons with V-DPM, 4RC and ARROW on dynamic and static scenes.">
+    <source src="static/videos/overview.mp4" type="video/mp4">
+    <a href="static/videos/overview.mp4">Download the overview video (MP4, 29&nbsp;MB)</a>
+  </video>
+  <figcaption><span class="fig-label">Video / Overview</span>
+    VGGM-Nexus maps a query (<i>u</i>,&nbsp;<i>v</i>,&nbsp;<i>s</i>,&nbsp;<i>t</i>) to the 3D position, at time <i>t</i>, of pixel (<i>u</i>,&nbsp;<i>v</i>) in frame <i>s</i>. A single SDP head supports diverse geometric prediction tasks accurately and efficiently.
+  </figcaption>
+</figure>
+
+<!-- ============================== Key numbers ============================== -->
+<!-- The four results of the video's summary (paper Sec. 4.2 to 4.4), all among unified 3D/4D models. -->
+<section class="highlights" id="highlights" aria-label="Key numbers">
+  <div class="stats-card">
+    <div class="stats">
+      <div class="stat">
+        <p class="stat-label">3D Point Tracking</p>
+        <p class="stat-num">13 of 16</p>
+        <p class="stat-text">best results on <b>WorldTrack</b>, second in the other three.</p>
+      </div>
+      <div class="stat">
+        <p class="stat-label">Multi-View Reconstruction</p>
+        <p class="stat-num">5 of 6</p>
+        <p class="stat-text">metrics ranked first on <b>7-Scenes</b> and <b>Neural RGB-D</b>.</p>
+      </div>
+      <div class="stat">
+        <p class="stat-label">Depth</p>
+        <p class="stat-num">6 of 6</p>
+        <p class="stat-text">best metrics on <b>Bonn</b>, <b>ETH3D</b> and <b>KITTI</b>.</p>
+      </div>
+      <div class="stat">
+        <p class="stat-label">Efficiency</p>
+        <p class="stat-num">4.3&nbsp;s</p>
+        <p class="stat-text">for <b>230K points</b> tracked over 64 frames; OpenD4RT takes 33&nbsp;s and ARROW 176&nbsp;s.</p>
+      </div>
+    </div>
+    <p class="stats-foot">Compared with unified 3D/4D models. Trained on public datasets only.</p>
+  </div>
+</section>
+
+<!-- ============================== 01 Viewer ============================== -->
+<section class="section" id="viewer">
+  <header class="section-head">
+    <p class="eyebrow"><span>01</span> / Interactive 4D viewer</p>
+    <h2 class="h2">4D reconstruction in the wild</h2>
+    <p class="lede">Each clip shows source-frame pixels at the current time, with 3D tracks coloured from the first to the last frame.</p>
+  </header>
+
+  <div class="viewer" id="viewer4d" data-base="static/viewer/">
+    <div class="viewer-bar">
+      <div class="clip-chips" data-role="chips" role="tablist" aria-label="Clip"></div>
+    </div>
+
+    <div class="viewer-stage" data-role="stage" tabindex="0" aria-label="3D view. Drag to orbit, scroll to zoom, right-drag to pan.">
+      <canvas data-role="canvas"></canvas>
+      <div class="pane-tag" data-pane="0"><span class="swatch" style="--c:var(--c-ours)"></span>VGGM-Nexus <em>ours</em></div>
+      <div class="pane-tag" data-pane="1"><span class="swatch" style="--c:var(--c-vdpm)"></span>V-DPM</div>
+      <div class="pane-tag" data-pane="2"><span class="swatch" style="--c:var(--c-four_rc)"></span>4RC</div>
+      <div class="pane-tag" data-pane="3"><span class="swatch" style="--c:var(--c-arrow)"></span>ARROW</div>
+      <div class="pane-status" data-pane="0" hidden>Loading…</div>
+      <div class="pane-status" data-pane="1" hidden>Loading…</div>
+      <div class="pane-status" data-pane="2" hidden>Loading…</div>
+      <div class="pane-status" data-pane="3" hidden>Loading…</div>
+      <p class="viewer-hint">Drag to orbit · scroll to zoom · right-drag to pan</p>
+      <div class="viewer-fallback" data-role="fallback" hidden></div>
+    </div>
+
+    <div class="viewer-controls">
+      <div class="frame-img" data-role="frame" role="img" aria-label="Input frame"></div>
+      <button type="button" class="icon-btn play-btn" data-role="play" aria-label="Pause">
+        <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
+      </button>
+      <input type="range" class="time-slider" data-role="slider" min="0" max="15" value="0" step="1" aria-label="Frame">
+      <output class="time-label mono" data-role="label">t = 1 / 16</output>
+      <label class="size"><span>Point size</span><input type="range" data-role="size" min="1" max="6" step="0.5" value="3" aria-label="Point size"></label>
+      <button type="button" class="text-btn" data-role="reset">Reset view</button>
+      <div class="time-legend" aria-label="Track colour encodes time">
+        <span>first frame</span><span class="turbo"></span><span>last frame</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== 02 3D viewer ============================== -->
+<!-- Static scenes: the fused 10-view pointmaps behind the paper's static panels, exported by tools/export_viewer3d_data.py. -->
+<section class="section" id="viewer3d">
+  <header class="section-head">
+    <p class="eyebrow"><span>02</span> / Interactive 3D viewer</p>
+    <h2 class="h2">3D reconstruction in the wild</h2>
+    <p class="lede">Each scene shows the pointmaps of 10 views, fused in the first camera.</p>
+  </header>
+
+  <div class="viewer" id="viewer-static" data-base="static/viewer3d/">
+    <div class="viewer-bar">
+      <div class="clip-chips" data-role="chips" role="tablist" aria-label="Scene"></div>
+    </div>
+
+    <div class="viewer-stage" data-role="stage" tabindex="0" aria-label="3D view. Drag to orbit, scroll to zoom, right-drag to pan.">
+      <canvas data-role="canvas"></canvas>
+      <div class="pane-tag" data-pane="0"><span class="swatch" style="--c:var(--c-ours)"></span>VGGM-Nexus <em>ours</em></div>
+      <div class="pane-tag" data-pane="1"><span class="swatch" style="--c:var(--c-vdpm)"></span>V-DPM</div>
+      <div class="pane-tag" data-pane="2"><span class="swatch" style="--c:var(--c-four_rc)"></span>4RC</div>
+      <div class="pane-tag" data-pane="3"><span class="swatch" style="--c:var(--c-arrow)"></span>ARROW</div>
+      <div class="pane-status" data-pane="0" hidden>Loading…</div>
+      <div class="pane-status" data-pane="1" hidden>Loading…</div>
+      <div class="pane-status" data-pane="2" hidden>Loading…</div>
+      <div class="pane-status" data-pane="3" hidden>Loading…</div>
+      <p class="viewer-hint">Drag to orbit · scroll to zoom · right-drag to pan</p>
+      <div class="viewer-fallback" data-role="fallback" hidden></div>
+    </div>
+
+    <div class="viewer-controls">
+      <div class="view-strip" data-role="views" role="img" aria-label="Input views"></div>
+      <label class="size"><span>Point size</span><input type="range" data-role="size" min="1" max="6" step="0.5" value="3" aria-label="Point size"></label>
+      <button type="button" class="text-btn" data-role="reset">Reset view</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== 03 Method ============================== -->
+<!-- Follows the overview video: motivation (three paradigms), pipeline (Fig. 2), SDP head (Fig. 3), the two mechanisms. -->
+<section class="section" id="method">
+  <header class="section-head">
+    <p class="eyebrow"><span>03</span> / Method</p>
+    <h2 class="h2">Point-to-patch querying: one query, a whole patch</h2>
+    <p class="lede">Existing dynamic models pay for what was not asked. Full-frame models decode every pixel, even for a few tracks. Point-to-point models decode each pixel separately, which is slow for dense output.</p>
+  </header>
+
+  <div class="paradigm-wrap">
+    <table class="paradigms">
+      <thead>
+        <tr><th>Paradigm</th><th>Models</th><th class="mark">Sparse queries</th><th class="mark">Dense output</th><th>64 frames, one GH200 GPU</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Full-frame</td><td>V-DPM, 4RC</td>
+            <td class="mark"><span class="no" role="img" aria-label="not efficient">✕</span></td><td class="mark"><span class="yes" role="img" aria-label="efficient">✓</span></td>
+            <td><b>188&nbsp;s</b> for 128 tracks (V-DPM)</td></tr>
+        <tr><td>Point-to-point</td><td>ARROW, D4RT</td>
+            <td class="mark"><span class="yes" role="img" aria-label="efficient">✓</span></td><td class="mark"><span class="no" role="img" aria-label="not efficient">✕</span></td>
+            <td><b>176&nbsp;s</b> for 230K points (ARROW)</td></tr>
+        <tr class="ours"><td>Point-to-patch <small>ours</small></td><td>VGGM-Nexus</td>
+            <td class="mark"><span class="yes" role="img" aria-label="efficient">✓</span></td><td class="mark"><span class="yes" role="img" aria-label="efficient">✓</span></td>
+            <td><b>1.6&nbsp;s</b> and <b>4.3&nbsp;s</b> for the same two</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Interactive method figures, staged as in the overview video (static/js/method.js).
+       Paper Figures 2 and 3: figures/fig_pipeline.pdf and figures/fig_dpt.pdf; re-export with tools/export_figures.py. -->
+  <figure class="stepfig" data-steps='[{"label": "Encode once", "text": "A VGGT-Ω encoder processes all frames once. Its pyramid features and camera tokens are shared by every query.", "regions": [[0, 0.12, 0.336, 1]]}, {"label": "Query", "text": "A query names a source pixel and a target time. The SDP head expands it into a patch of predictions.", "regions": [[0.337, 0.19, 0.612, 1], [0.395, 0.12, 0.475, 0.2]]}, {"label": "Lift", "text": "Each prediction is lifted to 3D along a steered source ray, using the predicted camera intrinsics.", "regions": [[0.616, 0.19, 0.802, 0.8], [0.315, 0, 0.68, 0.118]]}, {"label": "Reconstruct", "text": "Changing the queries changes the task: sparse points, 3D tracks, or dense 4D pointmaps.", "regions": [[0.806, 0.12, 1, 0.84]]}]'>
+    <div class="stepfig-stage"><div class="stepfig-canvas">
+      <img src="static/images/pipeline.webp" width="2240" height="641" loading="lazy"
+           alt="Overview of VGGM-Nexus. Input images pass through an encoder that produces a four-level feature pyramid and camera tokens. Queries q = (u, v, s, t), any pixel at any time, enter the SDP head, which uses source-frame and target-frame features at four levels. Steered-ray lifting turns each prediction into a 3D point from a depth and two offsets of the source ray. The output is a 3D or 4D reconstruction. A camera head and an auxiliary depth head branch off the encoder.">
+    </div></div>
+    <div class="stepfig-bar" role="tablist" aria-label="Stage of the pipeline"></div>
+    <figcaption><span class="fig-label">Figure 2 / Pipeline</span>
+      <span class="stepfig-text" aria-live="polite">The pipeline, stage by stage: encode once, query, lift, reconstruct. Pick a stage, or point at a part of the figure.</span>
+    </figcaption>
+  </figure>
+
+  <figure class="stepfig" data-steps='[{"label": "Point-to-patch expansion", "text": "Transposed convolutions grow one root query into 3×3, then 7×7 child queries, fused with source-frame features at every level.", "regions": [[0.43, 0.27, 0.772, 0.74], [0, 0.73, 1, 1], [0.025, 0.27, 0.135, 0.74]]}, {"label": "Target attention", "text": "At every level, the queries cross-attend to the features of the requested target frame.", "regions": [[0.136, 0.27, 0.425, 0.74], [0, 0, 1, 0.29], [0.025, 0.27, 0.135, 0.74]]}, {"label": "Patch read-out", "text": "A pixel shuffle turns the 7×7 queries into a 15×15 patch: 225 3D points from a single root query.", "regions": [[0.776, 0.27, 1, 0.74]]}]'>
+    <div class="stepfig-stage"><div class="stepfig-canvas">
+      <img src="static/images/sdp_head.webp" width="2240" height="730" loading="lazy"
+           alt="The SDP head. A root query sampled from the coarsest source-frame features passes through four levels. At each level, target attention modulates the target-frame features with AdaLN on the source and target camera tokens and applies cross-attention; expansion then upsamples the queries with a transposed convolution and adds source-frame features. The final 7 by 7 queries are shuffled into a 15 by 15 patch.">
+    </div></div>
+    <div class="stepfig-bar" role="tablist" aria-label="Part of the SDP head"></div>
+    <figcaption><span class="fig-label">Figure 3 / SDP head</span>
+      <span class="stepfig-text" aria-live="polite">Inside the sparse-to-dense prediction head: point-to-patch expansion, target attention, patch read-out. Pick a part, or point at the figure.</span>
+    </figcaption>
+  </figure>
+
+  <div class="mech">
+    <section class="mech-panel" aria-labelledby="mech-ta">
+      <h3 class="mech-title" id="mech-ta"><b class="tgt">Target attention</b> finds the motion</h3>
+      <div class="ta-stage">
+        <button type="button" class="ta-source" aria-label="Source frame with the query pixel. Click to move the query.">
+          <img src="static/images/method/frame_00.webp" width="688" height="384" alt="">
+          <span class="ta-chip src">source frame <i>s</i>, one query</span>
+          <span class="ta-query"></span>
+        </button>
+        <div class="ta-frames" role="group" aria-label="Encoder features of all T frames">
+          <button type="button" class="ta-frame" aria-pressed="false" aria-label="Frame 1: make it the target frame"><img src="static/images/method/frame_00.webp" width="352" height="196" loading="lazy" alt=""><span class="ta-chip tgt">target <i>t</i></span></button>
+          <button type="button" class="ta-frame" aria-pressed="false" aria-label="Frame 6: make it the target frame"><img src="static/images/method/frame_05.webp" width="352" height="196" loading="lazy" alt=""><span class="ta-chip tgt">target <i>t</i></span></button>
+          <button type="button" class="ta-frame" aria-pressed="false" aria-label="Frame 12: make it the target frame"><img src="static/images/method/frame_11.webp" width="352" height="196" loading="lazy" alt=""><span class="ta-chip tgt">target <i>t</i></span></button>
+          <button type="button" class="ta-frame" aria-pressed="false" aria-label="Frame 17: make it the target frame"><img src="static/images/method/frame_16.webp" width="352" height="196" loading="lazy" alt=""><span class="ta-chip tgt">target <i>t</i></span></button>
+          <button type="button" class="ta-frame" aria-pressed="false" aria-label="Frame 23: make it the target frame"><img src="static/images/method/frame_22.webp" width="352" height="196" loading="lazy" alt=""><span class="ta-chip tgt">target <i>t</i></span></button>
+          <button type="button" class="ta-frame" aria-pressed="false" aria-label="Frame 28: make it the target frame"><img src="static/images/method/frame_27.webp" width="352" height="196" loading="lazy" alt=""><span class="ta-chip tgt">target <i>t</i></span></button>
+        </div>
+        <svg class="ta-lines" aria-hidden="true"></svg>
+      </div>
+      <div class="mech-toggle" role="group" aria-label="Frames the query attends to">
+        <button type="button" data-ta="all" aria-pressed="true">All <i>T</i> frames</button>
+        <button type="button" data-ta="only" aria-pressed="false">Target frame only</button>
+      </div>
+      <p class="mech-line ta-cost" aria-live="polite"></p>
+      <p class="mech-note">The encoder already mixes all views; camera tokens handle camera motion. Click a frame to change the target time, or the source frame to move the query.</p>
+    </section>
+    <section class="mech-panel" aria-labelledby="mech-sf">
+      <h3 class="mech-title" id="mech-sf"><b class="src">Source fusion</b> keeps the detail</h3>
+      <div class="sf-stage">
+        <div class="sf-level"><p>root query</p><div class="sf-grid" data-n="1"></div><canvas class="sf-feat" data-res="3" width="3" height="3" aria-hidden="true"></canvas></div>
+        <span class="sf-arrow" aria-hidden="true">→</span>
+        <div class="sf-level"><p>3×3 children</p><div class="sf-grid" data-n="3"></div><canvas class="sf-feat" data-res="9" width="9" height="9" aria-hidden="true"></canvas></div>
+        <span class="sf-arrow" aria-hidden="true">→</span>
+        <div class="sf-level"><p>7×7 children</p><div class="sf-grid" data-n="7"></div><canvas class="sf-feat" data-res="28" width="28" height="28" aria-hidden="true"></canvas></div>
+      </div>
+      <div class="mech-toggle" role="group" aria-label="Source fusion">
+        <button type="button" data-sf="without" aria-pressed="true">Without fusion</button>
+        <button type="button" data-sf="with" aria-pressed="false">With fusion</button>
+      </div>
+      <p class="mech-line sf-text" aria-live="polite"></p>
+      <p class="mech-note">Result: fine-grained geometry, <b>+2.96 APD</b> on WorldTrack. With fusion, the small squares show the source features each level adds, coarse to fine.</p>
+    </section>
+  </div>
+</section>
+
+<!-- ============================== BibTeX: hidden for now ==============================
+     To show it again, delete this line, the two lines after it and the closing line below, and put
+     <a href="#bibtex">BibTeX</a> back at the end of the nav links. TODO: replace with the final citation.
+<section class="section narrow" id="bibtex">
+  <h2 class="h2">BibTeX</h2>
+  <div class="bibtex">
+    <button type="button" class="copy-btn" id="copy-bibtex">Copy</button>
+<pre id="bibtex-text"><code>@article{vggmnexus2026,
+  title   = {VGGM-Nexus: TODO paper title},
+  author  = {Zhao, Chen and Sucar, Edgar and Lai, Zihang and Insafutdinov, Eldar and Lan, Yushi and Vedaldi, Andrea},
+  journal = {arXiv preprint arXiv:TODO},
+  year    = {2026}
+}</code></pre>
+  </div>
+</section>
+============================== end of the hidden BibTeX section ============================== -->
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <a class="wordmark" href="#top">VGGM-Nexus<span class="dot">.</span></a>
+    <a class="to-top" href="#top">Back to top ↑</a>
+  </div>
+</footer>
+</body>
+</html>
