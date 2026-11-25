@@ -240,6 +240,21 @@ input[type="range"] { accent-color: var(--accent); }
   .viewer-controls .time-legend { margin-left: 0; }
 }
 
+/* ---------------------------------------------------------------- virtual tour (static/js/tour.js) */
+.tour .viewer-stage { aspect-ratio: 16 / 9; }
+.tour-inset {
+  position: absolute; z-index: 2; top: 12px; right: 12px; width: clamp(64px, 9vw, 112px); border-radius: 8px;
+  border: 1px solid var(--line); background-repeat: no-repeat; background-color: var(--soft); box-shadow: 0 2px 10px rgba(21,25,29,.10); pointer-events: none;
+}
+.tour .pane-status { left: 50%; top: 50%; }
+.tour .time-label { min-width: 112px; }
+.seg { display: inline-flex; border: 1px solid var(--line-2); border-radius: 8px; overflow: hidden; flex: none; }
+.seg button { border: 0; background: #fff; color: var(--ink-2); font: 500 13px/1 var(--font-body); padding: 9px 12px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--line-2); }
+.seg button:hover { color: var(--ink); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+@media (max-width: 700px) { .tour .viewer-stage { aspect-ratio: 4 / 5; } }
+
 /* ---------------------------------------------------------------- interactive method figures (static/js/method.js) */
 #method { --q: #0fa3b1; --src: #e27026; --tgt: #3468c0; --bad: #cc3e36; }   /* query, source and target colours of the paper figures */
 #method b.src { color: #b85310; } #method b.tgt { color: var(--tgt); } #method b.bad { color: var(--bad); }   /* coloured words, not the chips */

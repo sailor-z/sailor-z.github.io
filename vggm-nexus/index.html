@@ -24,6 +24,7 @@
 <script defer src="static/js/main.js"></script>
 <script defer src="static/js/method.js"></script>
 <script type="module" src="static/js/viewer.js"></script>
+<script type="module" src="static/js/tour.js"></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -34,6 +35,7 @@
     <nav class="nav-links" aria-label="Sections">
       <a href="#viewer">4D viewer</a>
       <a href="#viewer3d">3D viewer</a>
+      <a href="#tour">Tour</a>
       <a href="#method">Method</a>
     </nav>
     <!-- TODO: set the paper URL and remove data-soon. -->
@@ -204,11 +206,49 @@
   </div>
 </section>
 
-<!-- ============================== 03 Method ============================== -->
+<!-- ============================== 03 Virtual tour ============================== -->
+<!-- A 56 s phone video through the Visual Geometry Group building, reconstructed by VGGM-Nexus in chunks of 64 frames,
+     with its tracks of moving people. Data: static/tour/ (see "Virtual tour" in the page README); viewer: static/js/tour.js. -->
+<section class="section" id="tour">
+  <header class="section-head">
+    <p class="eyebrow"><span>03</span> / Virtual tour</p>
+    <h2 class="h2">Virtual Tour of Visual Geometry Group</h2>
+    <p class="lede">A 56-second phone video through our building, reconstructed by VGGM-Nexus. Press play to walk along; people passing by are tracked.</p>
+  </header>
+
+  <div class="viewer tour" id="tour-viewer" data-tour="static/tour/">
+    <div class="viewer-stage" data-role="stage" tabindex="0" aria-label="3D view of the virtual tour. Drag to orbit, scroll to zoom, right-drag to pan. Space plays, arrow keys step.">
+      <canvas data-role="canvas"></canvas>
+      <div class="tour-inset" data-role="frame" role="img" aria-label="Input video frame"></div>
+      <div class="pane-status" data-role="status" hidden>Loading…</div>
+      <p class="viewer-hint">Drag to orbit · scroll to zoom · right-drag to pan</p>
+      <div class="viewer-fallback" data-role="fallback" hidden></div>
+    </div>
+
+    <div class="viewer-controls">
+      <button type="button" class="icon-btn play-btn paused" data-role="play" aria-label="Play the tour">
+        <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
+      </button>
+      <input type="range" class="time-slider" data-role="slider" min="0" max="561" value="561" step="1" aria-label="Time">
+      <output class="time-label mono" data-role="label">00:56.1 / 00:56.1</output>
+      <div class="seg" role="group" aria-label="View">
+        <button type="button" data-view="follow" aria-pressed="false">Follow</button>
+        <button type="button" data-view="overview" aria-pressed="true">Overview</button>
+      </div>
+      <label class="size"><span>Point size</span><input type="range" data-role="size" min="1" max="6" step="0.5" value="2.5" aria-label="Point size"></label>
+      <div class="time-legend" aria-label="Track colour encodes time along each track">
+        <span>track start</span><span class="turbo"></span><span>now</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== 04 Method ============================== -->
 <!-- Follows the overview video: motivation (three paradigms), pipeline (Fig. 2), SDP head (Fig. 3), the two mechanisms. -->
 <section class="section" id="method">
   <header class="section-head">
-    <p class="eyebrow"><span>03</span> / Method</p>
+    <p class="eyebrow"><span>04</span> / Method</p>
     <h2 class="h2">Point-to-patch querying: one query, a whole patch</h2>
     <p class="lede">Existing dynamic models pay for what was not asked. Full-frame models decode every pixel, even for a few tracks. Point-to-point models decode each pixel separately, which is slow for dense output.</p>
   </header>
